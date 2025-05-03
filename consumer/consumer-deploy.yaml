@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beanstalk-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: krupakar0307/consumer-service:v1 # Your image name here
+        env:
+        - name: BEANSTALK_HOST
+          value: "beanstalk-svc:11300"  # K8s service name
+        - name: WORKERS
+          value: "6"
+        - name: PROCESS_SECONDS
+          value: "1"
+        - name: GAP_SECONDS
+          value: "0"
+

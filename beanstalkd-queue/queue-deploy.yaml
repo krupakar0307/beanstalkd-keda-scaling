@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: beanstalk-queue
+  name: beanstalk-queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beanstalk-queue
+  template:
+    metadata:
+      labels:
+        app: beanstalk-queue
+    spec:
+      containers:
+      - image: krupakar0307/beanstalkd:v1
+        imagePullPolicy: IfNotPresent
+        name: beanstalkd
+      

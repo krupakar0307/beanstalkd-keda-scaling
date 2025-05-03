@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: beanstalk-queue
+  name: beanstalk-svc
+spec:
+  ports:
+  - port: 11300
+    protocol: TCP
+    targetPort: 11300
+  selector:
+    app: beanstalk-queue
+  type: ClusterIP

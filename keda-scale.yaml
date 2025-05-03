@@ -1,0 +1,21 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: beanstalkd-ready-jobs
+spec:
+  scaleTargetRef:
+    name: beanstalk-consumer  # Must match deployment name
+  minReplicaCount: 1
+  maxReplicaCount: 5
+
+  #https://keda.sh/docs/2.16/scalers/beanstalkd/#trigger-specification
+  triggers:
+  - type: beanstalkd
+    metadata:
+      server: "beanstalk-svc.default.svc.cluster.local:11300"  # K8s service name
+      tube: "orders"
+      activationValue: "500"  # Start scaling after 500 READY jobs
+      value: "100"             # Target 100 READY jobs per pod
+      includeDelayed: "false"
+      includeBuried: "false"
+
